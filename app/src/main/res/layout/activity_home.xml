@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:contentDescription="background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <TextView
+        android:id="@+id/splash_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="travlr"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+       />
+    <TextView
+        android:id="@+id/sub_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:text="Finding best places near you"
+        android:layout_below="@id/splash_text"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="18dp"
+        />
+
+    <TextView
+        android:id="@+id/embeddedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Places Near You"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/app_bar"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:visibility="gone"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/venue_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/embeddedText"
+        />
+
+</RelativeLayout>
