@@ -47,6 +47,7 @@ public interface Keys {
     String PREFIX="prefix";
     String SUFFIX="suffix";
     String RATING="rating";
+    String RATING_COLOR="ratingColor";
     String TIPS="tips";
     String LIKES="likes";
     String PHOTOS="photos";

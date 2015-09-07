@@ -123,6 +123,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterExplore.Cl
                 JSONArray formattedAddress = locationObject.getJSONArray(FORMATTED_ADDRESS);
                 JSONArray categoriesArray = currentVenue.getJSONArray(CATEGORIES);
                 JSONObject categoryInfo = categoriesArray.getJSONObject(0);
+                JSONObject categoryIcon=categoryInfo.getJSONObject(ICON);
                 JSONObject venuePhoto = currentVenue.getJSONObject(PHOTOS).getJSONArray(GROUPS).getJSONObject(0).getJSONArray(ITEMS).getJSONObject(0);
 
                 String tipCount = currentVenue.getJSONObject(STATS).getString(TIP_COUNT);
@@ -141,9 +142,12 @@ public class HomeActivity extends AppCompatActivity implements AdapterExplore.Cl
                 place.setState(locationObject.getString(STATE));
                 place.setCountry(locationObject.getString(COUNTRY));
                 place.setPostalCode(locationObject.getString(POSTAL_CODE));
-                if (currentVenue.has(RATING))
+                if (currentVenue.has(RATING)){
                     place.setRatings(currentVenue.getString(RATING));
+                    place.setRatingColor("#"+currentVenue.getString(RATING_COLOR));
+                }
                 place.setCategoryName(categoryInfo.getString(CATEGORY_NAME));
+                place.setCategoryIconUrl(setupCategoryIconUrl(categoryIcon.getString(PREFIX),categoryIcon.getString(SUFFIX)));
                 place.setTipCount(tipCount);
                 place.setVenuePhotoUrl(setupVenuePhotoUrl(venuePhoto.getString(PREFIX), venuePhoto.getString(SUFFIX)));
                 place.setFormattedAddress(fullAddress);
@@ -161,7 +165,10 @@ public class HomeActivity extends AppCompatActivity implements AdapterExplore.Cl
         String resolution = "500x300";
         return prefix + resolution + suffix;
     }
-
+    private String setupCategoryIconUrl(String prefix,String suffix){
+        String size="64";
+        return prefix+size+suffix;
+    }
 
     private String buildUrl(int limit) {
         String mLimit = Integer.toString(limit);

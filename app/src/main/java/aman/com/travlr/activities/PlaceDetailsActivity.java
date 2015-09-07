@@ -1,28 +1,18 @@
 package aman.com.travlr.activities;
 
-import android.annotation.TargetApi;
-import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
-import android.os.Build;
-import android.os.PersistableBundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -66,8 +56,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     private ArrayList<ExplorePlace> retrievedList;
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbar;
-    private ImageView imageView;
-    private TextView placeName,location,area,country;
+    private ImageView imageView,categoryIcon;
+    private TextView placeName,location,area,country,categoryText,ratingText,checkInText;
     private VolleySingleton volleySingleton;
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
@@ -79,51 +69,50 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_place_details);
         pos=getIntent().getIntExtra("position", 0);
         retrievedList=getIntent().getParcelableArrayListExtra("list_places");
+        setupToolbar();
+
+        imageView= (ImageView) findViewById(R.id.animated_image);
+        categoryIcon= (ImageView) findViewById(R.id.textView);
+
+        volleySingleton=VolleySingleton.getInstance();
+        requestQueue=volleySingleton.getRequestQueue();
+        imageLoader=volleySingleton.getImageLoader();
+        initTextViews();
+        sendJsonRequest();
+        getImages();
+    }
+    private synchronized void setupToolbar(){
         toolbar= (Toolbar) findViewById(R.id.titleBar);
         setSupportActionBar(toolbar);
         collapsingToolbar= (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(retrievedList.get(pos).getName());
         collapsingToolbar.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-        imageView= (ImageView) findViewById(R.id.animated_image);
-        Typeface text_font=Typeface.createFromAsset(getAssets(),"fonts/Montserrat-Light.otf");
+    }
+    private synchronized void initTextViews(){
+        Typeface text_font=Typeface.createFromAsset(getAssets(),"fonts/places-text.otf");
         placeName= (TextView) findViewById(R.id.place_name);
         location= (TextView) findViewById(R.id.location);
-        location.setTypeface(text_font);
         area= (TextView) findViewById(R.id.area);
-        area.setTypeface(text_font);
         country= (TextView) findViewById(R.id.country);
+        cardTitle= (TextView) findViewById(R.id.card_title);
+        categoryText= (TextView) findViewById(R.id.category_text);
+        ratingText= (TextView) findViewById(R.id.textView4);
+        checkInText= (TextView) findViewById(R.id.checkin_text);
+        //setting font
+        placeName.setTypeface(text_font);
+        location.setTypeface(text_font);
+        area.setTypeface(text_font);
         country.setTypeface(text_font);
+        cardTitle.setTypeface(text_font);
+        categoryText.setTypeface(text_font);
+        ratingText.setTypeface(text_font);
+        checkInText.setTypeface(text_font);
+
         placeName.setText(retrievedList.get(pos).getName());
         location.setText(retrievedList.get(pos).getAddress());
-        area.setText(retrievedList.get(pos).getCity()+" "+retrievedList.get(pos).getPostalCode());
-        country.setText(retrievedList.get(pos).getState()+" "+retrievedList.get(pos).getCountry());
-        cardTitle= (TextView) findViewById(R.id.card_title);
-        Typeface title_card=Typeface.createFromAsset(getAssets(),"fonts/Montserrat-Regular.otf");
-        cardTitle.setTypeface(title_card);
-        placeName.setTypeface(title_card);
-        volleySingleton=VolleySingleton.getInstance();
-        requestQueue=volleySingleton.getRequestQueue();
-        imageLoader=volleySingleton.getImageLoader();
-        sendJsonRequest();
-        imageLoader.get(retrievedList.get(pos).getVenuePhotoUrl(), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(final ImageLoader.ImageContainer response, boolean isImmediate) {
-               // imageView.setImageBitmap(response.getBitmap());
-                Palette.from(response.getBitmap()).generate(new Palette.PaletteAsyncListener() {
-                    @Override
-                    public void onGenerated(Palette palette) {
-                        imageView.setImageBitmap(response.getBitmap());
-                        int defaultColor = getResources().getColor(android.R.color.black);
-                        collapsingToolbar.setContentScrimColor(palette.getDarkMutedColor(defaultColor));;
-                    }
-                });
-            }
+        area.setText(retrievedList.get(pos).getCity() + " " + retrievedList.get(pos).getPostalCode());
+        country.setText(retrievedList.get(pos).getState() + " " + retrievedList.get(pos).getCountry());
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
     }
     private void sendJsonRequest(){
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, buildUri(4), new Response.Listener<JSONObject>() {
@@ -202,6 +191,39 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 .appendQueryParameter(KEY_LIMIT, mLimit)
                 .build();
         return builtUri.toString();
+    }
+    private void getImages(){
+        imageLoader.get(retrievedList.get(pos).getVenuePhotoUrl(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(final ImageLoader.ImageContainer response, boolean isImmediate) {
+                // imageView.setImageBitmap(response.getBitmap());
+                Palette.from(response.getBitmap()).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        imageView.setImageBitmap(response.getBitmap());
+                        int defaultColor = getResources().getColor(android.R.color.black);
+                        collapsingToolbar.setContentScrimColor(palette.getDarkMutedColor(defaultColor));
+                        ;
+                    }
+                });
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        imageLoader.get(retrievedList.get(pos).getCategoryIconUrl(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                categoryIcon.setImageBitmap(response.getBitmap());
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
     }
 
     @Override

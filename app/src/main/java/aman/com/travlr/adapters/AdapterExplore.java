@@ -91,8 +91,8 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ViewHold
         private TextView tipCount;
         public ViewHolderPlaces(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             venueImage= (ImageView) itemView.findViewById(R.id.venue_image);
-            venueImage.setOnClickListener(this);
             venueName= (TextView) itemView.findViewById(R.id.venue_name);
             Typeface venueNameFace=Typeface.createFromAsset(itemView.getContext().getAssets(),"fonts/JosefinSlab-Bold.ttf");
             venueName.setTypeface(venueNameFace);

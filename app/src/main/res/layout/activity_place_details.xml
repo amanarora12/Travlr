@@ -90,45 +90,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-           <!-- <LinearLayout
-                android:id="@+id/container1"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="#000000"
-                android:divider="@drawable/divider"
-                android:dividerPadding="3dp"
-                android:orientation="horizontal"
-                android:showDividers="middle"
-                android:weightSum="3">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingBottom="3dp"
-                    android:paddingTop="3dp"
-                    android:src="@drawable/call" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingBottom="3dp"
-                    android:paddingTop="3dp"
-                    android:src="@drawable/checkin" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingBottom="3dp"
-                    android:paddingTop="3dp"
-                    android:src="@drawable/share" />
-            </LinearLayout>-->
-
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -211,18 +172,20 @@
                         android:paddingBottom="10dp"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"/>
-                    <TextView
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="9.8"
+                        android:src="@drawable/cafe_44"
                         android:textColor="@android:color/white"
                         android:layout_below="@id/card_title"
                         android:gravity="center"
+                        android:scaleType="centerInside"
                         android:layout_marginLeft="8dp"
                         android:layout_marginBottom="6dp"
-                        android:background="@drawable/circle"
+                        android:background="@drawable/category_bg"
                         android:id="@+id/textView" />
                     <TextView
+                        android:id="@+id/category_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Category"
@@ -259,9 +222,10 @@
                         android:layout_marginRight="8dp"
                         android:id="@+id/textView3" />
                     <TextView
+                        android:id="@+id/checkin_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CheckIns"
+                        android:text="Check-Ins"
                         android:layout_alignTop="@+id/textView4"
                         android:layout_alignLeft="@+id/textView3"
                         android:layout_alignStart="@+id/textView3" />

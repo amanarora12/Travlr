@@ -19,6 +19,8 @@ public class ExplorePlace implements Parcelable {
     private String venuePhotoUrl;
     private String formattedAddress;
     private String postalCode;
+    private String categoryIconUrl;
+    private String ratingColor;
 
     public ExplorePlace(Parcel in) {
         id = in.readString();
@@ -33,6 +35,8 @@ public class ExplorePlace implements Parcelable {
         venuePhotoUrl = in.readString();
         formattedAddress=in.readString();
         postalCode=in.readString();
+        categoryIconUrl=in.readString();
+        ratingColor=in.readString();
     }
 
     public static final Creator<ExplorePlace> CREATOR = new Creator<ExplorePlace>() {
@@ -92,6 +96,14 @@ public class ExplorePlace implements Parcelable {
         this.formattedAddress = formattedAddress;
     }
 
+    public void setRatingColor(String ratingColor) {
+        this.ratingColor = ratingColor;
+    }
+
+    public void setCategoryIconUrl(String categoryIconUrl) {
+        this.categoryIconUrl = categoryIconUrl;
+    }
+
     public String getId() {
         return id;
     }
@@ -135,8 +147,16 @@ public class ExplorePlace implements Parcelable {
         return postalCode;
     }
 
+    public String getCategoryIconUrl() {
+        return categoryIconUrl;
+    }
+
     public String getFormattedAddress() {
         return formattedAddress;
+    }
+
+    public String getRatingColor() {
+        return ratingColor;
     }
 
     @Override
@@ -159,5 +179,7 @@ public class ExplorePlace implements Parcelable {
         dest.writeString(venuePhotoUrl);
         dest.writeString(formattedAddress);
         dest.writeString(postalCode);
+        dest.writeString(categoryIconUrl);
+        dest.writeString(ratingColor);
     }
 }
